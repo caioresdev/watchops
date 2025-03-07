@@ -9,7 +9,11 @@ def monitor_gpu():
       - Utilização de memória (%)
       - Velocidade do fan (%)
       - Memória usada (MB) e total (MB)
+    Envia notificação se a utilização da GPU ultrapassar o threshold definido.
     """
+    cfg = config.load_config()
+    gpu_threshold = cfg.get("thresholds", {}).get("gpu", {}).get("usage", 80)
+    
     try:
         pynvml.nvmlInit()
     except Exception as e:
@@ -21,7 +25,6 @@ def monitor_gpu():
         handle = pynvml.nvmlDeviceGetHandleByIndex(i)
         try:
             raw_name = pynvml.nvmlDeviceGetName(handle)
-            # Tenta decodificar caso seja bytes; se houver erro, usa um nome padrão
             if isinstance(raw_name, bytes):
                 try:
                     name = raw_name.decode("utf-8", errors="ignore")
@@ -41,12 +44,17 @@ def monitor_gpu():
         
         gpu_data = {
             "name": name,
-            "gpu_util": util.gpu,          # Percentual de uso da GPU
-            "memory_util": util.memory,    # Percentual de uso da memória da GPU
-            "fan_speed": fan_speed,         # Velocidade do fan em %
+            "gpu_util": util.gpu,
+            "memory_util": util.memory,
+            "fan_speed": fan_speed,
             "memory_used_mb": round(memory_info.used / (1024 * 1024), 2),
             "memory_total_mb": round(memory_info.total / (1024 * 1024), 2)
         }
+        # Envia notificação se o uso de GPU ultrapassar o threshold
+        if util.gpu > gpu_threshold:
+            notify.send_notification(
+                f"Alerta de GPU: {name} com uso de {util.gpu}% ultrapassou o threshold de {gpu_threshold}%."
+            )
         gpus.append(gpu_data)
     pynvml.nvmlShutdown()
     return {"gpu_count": gpu_count, "gpus": gpus}
