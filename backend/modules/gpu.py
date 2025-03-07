@@ -1,5 +1,5 @@
 import time
-from config import THRESHOLDS, MONITOR_INTERVAL
+from backend.modules.config import THRESHOLDS, MONITOR_INTERVAL
 from ..modules.notify import send_discord_notification
 
 def get_gpu_usage():

@@ -2,7 +2,7 @@
 <html lang="pt-BR">
 <head>
     <meta charset="UTF-8">
-    <title>Monitoramento de vCPU</title>
+    <title>Monitoramento de Recursos</title>
     <link rel="stylesheet" href="/static/style.css">
     <!-- Incluindo Chart.js -->
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
@@ -34,7 +34,7 @@
         </form>
         <div id="message"></div>
 
-        <!-- Container dos gráficos -->
+        <!-- Linha de gráficos para CPU -->
         <div class="chart-row">
             <div class="chart-item">
                 <h2>Gráfico de vCPU (Média)</h2>
@@ -45,7 +45,38 @@
                 <canvas id="cpuCoreChart" width="400" height="200"></canvas>
             </div>
         </div>
-    </div>
+
+        <!-- Linha de gráficos para RAM e Disco -->
+        <div class="chart-row">
+            <div class="chart-item">
+                <h2>Gráfico de RAM</h2>
+                <canvas id="ramChart" width="400" height="200"></canvas>
+                <div id="ramInfo" class="info"></div>
+            </div>
+            <div class="chart-item">
+                <h2>Gráfico de Disco</h2>
+                <canvas id="diskChart" width="400" height="200"></canvas>
+                <div id="diskInfo" class="info"></div>
+            </div>
+        </div>
+
+        <!-- Tabela de Containers Docker -->
+<div class="containers-section">
+    <h2>Containers Docker</h2>
+    <table id="containersTable">
+        <thead>
+            <tr>
+                <th>Nome</th>
+                <th>Status</th>
+                <th>Uso de CPU (%)</th>
+                <th>vCPU Limit</th>
+                <th>RAM em Uso (MB)</th>
+                <th>RAM Total (MB)</th>
+            </tr>
+        </thead>
+        <tbody></tbody>
+    </table>
+</div>
     <script src="/static/script.js"></script>
 </body>
 </html>

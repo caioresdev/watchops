@@ -3,11 +3,11 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 import os
-from modules import config, cpu  # Adicionamos a importação do módulo cpu
+from modules import config, cpu, ram, disk, network, containers
 
 app = FastAPI()
 
-# Configurando a pasta de arquivos estáticos e templates
+# Configuração dos arquivos estáticos e templates
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "frontend", "static")), name="static")
 
@@ -19,23 +19,33 @@ def read_index():
 
 @app.get("/api/config")
 def get_config():
-    """Retorna a configuração atual."""
     return config.load_config()
 
 @app.post("/api/config")
 async def update_config(request: Request):
-    """Atualiza a configuração com os dados enviados pelo frontend."""
     data = await request.json()
     config.update_config(data)
     return {"message": "Configuração atualizada com sucesso", "config": config.load_config()}
 
 @app.get("/api/cpu")
 def get_cpu_metrics():
-    """
-    Retorna as métricas de CPU.  
-    O método monitor_cpu() já envia notificação se o uso médio ultrapassar o threshold.
-    """
     return cpu.monitor_cpu()
+
+@app.get("/api/ram")
+def get_ram_metrics():
+    return ram.monitor_ram()
+
+@app.get("/api/disk")
+def get_disk_metrics():
+    return disk.monitor_disk()
+
+@app.get("/api/network")
+def get_network_metrics():
+    return network.monitor_network()
+
+@app.get("/api/containers")
+def get_containers_metrics():
+    return containers.monitor_docker()
 
 if __name__ == "__main__":
     uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)
