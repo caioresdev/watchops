@@ -4,9 +4,9 @@ def monitor_docker():
     """
     Monitora os containers Docker, retornando para cada:
       - ID, nome e status
-      - vCPU Limit (obtido do atributo HostConfig, usando 'NanoCpus')
+      - vCPU Limit (obtido a partir de 'NanoCpus')
       - Se estiver rodando, estatísticas de CPU e memória
-      - Últimas 5 linhas de logs
+      - Últimas 5 linhas de logs e os 5 últimos logs contendo "error"
     """
     client = docker.from_env()
     containers = client.containers.list(all=True)
@@ -18,14 +18,13 @@ def monitor_docker():
             "name": container.name,
             "status": container.status,
         }
-        # Obtém vCPU Limit (NanoCpus está em nanoCPUs; divida por 1e9 para converter em número de CPUs)
+        # Obtém o limite de vCPUs (NanoCpus em nanoCPUs, divida por 1e9)
         try:
             attrs = container.attrs
             nano_cpus = attrs['HostConfig'].get('NanoCpus', 0)
             vcpu_limit = nano_cpus / 1e9 if nano_cpus else "Unlimited"
         except Exception:
             vcpu_limit = "N/A"
-        
         info["vcpu_limit"] = vcpu_limit
 
         if container.status == "running":
@@ -56,11 +55,17 @@ def monitor_docker():
             info["memory_usage"] = None
             info["memory_limit"] = None
         
+        # Coleta os últimos 5 logs
         try:
             logs = container.logs(tail=5).decode('utf-8').splitlines()
         except Exception:
             logs = []
         info["logs"] = logs
+        # Filtra os logs que contenham "error"
+        error_logs = [line for line in logs if "error" in line.lower()]
+        if len(error_logs) > 5:
+            error_logs = error_logs[-5:]
+        info["error_logs"] = error_logs
 
         containers_info.append(info)
     

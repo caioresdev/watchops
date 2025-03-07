@@ -1,0 +1,53 @@
+/* Estilos para a tabela de containers */
+.containers-section {
+    margin-top: 30px;
+    text-align: center;
+}
+
+#containersTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#containersTable th, #containersTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#containersTable th {
+    background-color: #007bff;
+    color: white;
+}
+.gpu-section {
+    margin-top: 30px;
+    text-align: center;
+}
+
+#gpuTable {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 10px;
+}
+
+#gpuTable th, #gpuTable td {
+    border: 1px solid #ddd;
+    padding: 8px;
+}
+
+#gpuTable th {
+    background-color: #28a745;
+    color: white;
+}
+
+/* Estilos para a tabela de containers (já existentes) */
+/* Estilos para a seção de logs do sistema */
+.logs-section {
+    margin-top: 30px;
+    text-align: center;
+}
+
+.logs-section ul {
+    list-style-type: none;
+    padding: 0;
+}

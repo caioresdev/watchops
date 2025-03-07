@@ -11,30 +11,25 @@
     <div class="container">
         <h1>Configuração do Monitoramento</h1>
         <form id="configForm">
+            <!-- Campos de configuração (como antes) -->
             <label for="monitoring_interval">Intervalo de Monitoramento (segundos):</label>
             <input type="number" id="monitoring_interval" name="monitoring_interval" min="1" required>
-            
             <h2>Thresholds</h2>
             <label for="cpu_usage">CPU (% de uso):</label>
             <input type="number" id="cpu_usage" name="cpu_usage" min="0" max="100" required>
-            
             <label for="disk_usage">Disco (% de uso):</label>
             <input type="number" id="disk_usage" name="disk_usage" min="0" max="100" required>
-            
             <label for="ram_usage">RAM (% de uso):</label>
             <input type="number" id="ram_usage" name="ram_usage" min="0" max="100" required>
-            
             <label for="gpu_usage">GPU (% de uso):</label>
             <input type="number" id="gpu_usage" name="gpu_usage" min="0" max="100" required>
-            
             <label for="webhook">Webhook do Discord:</label>
             <input type="text" id="webhook" name="webhook">
-            
             <button type="submit">Salvar Configuração</button>
         </form>
         <div id="message"></div>
 
-        <!-- Linha de gráficos para CPU -->
+        <!-- Gráficos de CPU -->
         <div class="chart-row">
             <div class="chart-item">
                 <h2>Gráfico de vCPU (Média)</h2>
@@ -46,7 +41,7 @@
             </div>
         </div>
 
-        <!-- Linha de gráficos para RAM e Disco -->
+        <!-- Gráficos de RAM e Disco -->
         <div class="chart-row">
             <div class="chart-item">
                 <h2>Gráfico de RAM</h2>
@@ -60,23 +55,57 @@
             </div>
         </div>
 
+        <!-- Gráfico de Network -->
+        <div class="chart-row">
+            <div class="chart-item">
+                <h2>Gráfico de Network</h2>
+                <canvas id="networkChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+
+        <!-- Tabela de GPU -->
+        <div class="gpu-section">
+            <h2>Dados de GPU</h2>
+            <table id="gpuTable">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>GPU Util (%)</th>
+                        <th>Memória Util (%)</th>
+                        <th>Fan Speed (%)</th>
+                        <th>Memória Usada (MB)</th>
+                        <th>Memória Total (MB)</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
         <!-- Tabela de Containers Docker -->
-<div class="containers-section">
-    <h2>Containers Docker</h2>
-    <table id="containersTable">
-        <thead>
-            <tr>
-                <th>Nome</th>
-                <th>Status</th>
-                <th>Uso de CPU (%)</th>
-                <th>vCPU Limit</th>
-                <th>RAM em Uso (MB)</th>
-                <th>RAM Total (MB)</th>
-            </tr>
-        </thead>
-        <tbody></tbody>
-    </table>
-</div>
+        <div class="containers-section">
+            <h2>Containers Docker</h2>
+            <table id="containersTable">
+                <thead>
+                    <tr>
+                        <th>Nome</th>
+                        <th>Status</th>
+                        <th>Uso de CPU (%)</th>
+                        <th>vCPU Limit</th>
+                        <th>RAM em Uso (MB)</th>
+                        <th>RAM Total (MB)</th>
+                        <th>Error Logs</th>
+                    </tr>
+                </thead>
+                <tbody></tbody>
+            </table>
+        </div>
+
+        <!-- Logs do Sistema -->
+        <div class="logs-section">
+            <h2>Logs de Erro do Sistema</h2>
+            <ul id="systemLogs"></ul>
+        </div>
+    </div>
     <script src="/static/script.js"></script>
 </body>
 </html>

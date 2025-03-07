@@ -3,17 +3,16 @@ from fastapi.responses import HTMLResponse
 from fastapi.staticfiles import StaticFiles
 import uvicorn
 import os
-from modules import config, cpu, ram, disk, network, containers
+from modules import config, cpu, ram, disk, network, containers, gpu, logs
 
 app = FastAPI()
 
-# Configuração dos arquivos estáticos e templates
 BASE_DIR = os.path.dirname(os.path.abspath(__file__))
-app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "frontend", "static")), name="static")
+app.mount("/static", StaticFiles(directory=os.path.join(BASE_DIR, "tests", "static")), name="static")
 
 @app.get("/", response_class=HTMLResponse)
 def read_index():
-    index_path = os.path.join(BASE_DIR, "frontend", "templates", "index.html")
+    index_path = os.path.join(BASE_DIR, "tests", "templates", "index.html")
     with open(index_path, "r", encoding="utf-8") as f:
         return f.read()
 
@@ -46,6 +45,14 @@ def get_network_metrics():
 @app.get("/api/containers")
 def get_containers_metrics():
     return containers.monitor_docker()
+
+@app.get("/api/gpu")
+def get_gpu_metrics():
+    return gpu.monitor_gpu()
+
+@app.get("/api/system_logs")
+def get_system_logs():
+    return logs.monitor_system_logs()
 
 if __name__ == "__main__":
     uvicorn.run("api:app", host="0.0.0.0", port=8000, reload=True)
