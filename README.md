@@ -1,7 +1,3 @@
-Below is an example README in English:
-
----
-
 # Server and Docker Containers Monitoring Application
 
 ## Overview
@@ -34,11 +30,6 @@ The project is divided into two parts:
 ### Backend Setup
 
 1. **Clone the repository:**
-
-   ```bash
-   git clone https://github.com/yourusername/yourrepository.git
-   cd yourrepository/backend
-   ```
 
 2. **Create a Python virtual environment:**
 
@@ -87,11 +78,3 @@ The project is divided into two parts:
 - Ensure that the `config.json` file is properly configured with the desired thresholds and the Discord webhook URL.
 - For GPU monitoring, the application uses NVML through the `pynvml` library; ensure that your system has the appropriate NVIDIA drivers installed.
 - Docker must be installed and running, and the user executing the backend must have the necessary permissions to access Docker.
-
-## License
-
-This project is licensed under the MIT License.
-
----
-
-Adjust the repository URL and any other details as necessary.
