@@ -1,0 +1,51 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+    <meta charset="UTF-8">
+    <title>Monitoramento de vCPU</title>
+    <link rel="stylesheet" href="/static/style.css">
+    <!-- Incluindo Chart.js -->
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+</head>
+<body>
+    <div class="container">
+        <h1>Configuração do Monitoramento</h1>
+        <form id="configForm">
+            <label for="monitoring_interval">Intervalo de Monitoramento (segundos):</label>
+            <input type="number" id="monitoring_interval" name="monitoring_interval" min="1" required>
+            
+            <h2>Thresholds</h2>
+            <label for="cpu_usage">CPU (% de uso):</label>
+            <input type="number" id="cpu_usage" name="cpu_usage" min="0" max="100" required>
+            
+            <label for="disk_usage">Disco (% de uso):</label>
+            <input type="number" id="disk_usage" name="disk_usage" min="0" max="100" required>
+            
+            <label for="ram_usage">RAM (% de uso):</label>
+            <input type="number" id="ram_usage" name="ram_usage" min="0" max="100" required>
+            
+            <label for="gpu_usage">GPU (% de uso):</label>
+            <input type="number" id="gpu_usage" name="gpu_usage" min="0" max="100" required>
+            
+            <label for="webhook">Webhook do Discord:</label>
+            <input type="text" id="webhook" name="webhook">
+            
+            <button type="submit">Salvar Configuração</button>
+        </form>
+        <div id="message"></div>
+
+        <!-- Container dos gráficos -->
+        <div class="chart-row">
+            <div class="chart-item">
+                <h2>Gráfico de vCPU (Média)</h2>
+                <canvas id="cpuChart" width="400" height="200"></canvas>
+            </div>
+            <div class="chart-item">
+                <h2>Gráfico por vCPU</h2>
+                <canvas id="cpuCoreChart" width="400" height="200"></canvas>
+            </div>
+        </div>
+    </div>
+    <script src="/static/script.js"></script>
+</body>
+</html>
