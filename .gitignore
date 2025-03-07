@@ -1,3 +1,9 @@
 .watchops/
 config.json
 __pycache__
+
+# dependencies
+node_modules/
+
+# production
+/build
