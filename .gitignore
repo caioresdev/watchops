@@ -1,1 +1,3 @@
 .watchops/
+config.json
+__pycache__
